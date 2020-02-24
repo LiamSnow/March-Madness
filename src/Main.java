@@ -8,12 +8,14 @@ import java.util.List;
 public class Main {
 	
 	public static final int YEAR = 2018;
+	public static final boolean PRINT = false;
 	
 	public static void main(String args[]) {
-		
-		String teamPositioning = Reader.readTextFile();
-		List<Team> teams = Reader.readKenpom(YEAR);
-		Bracket bracket = new Bracket(Reader.organizeTeamsBy(teams, teamPositioning), YEAR);
+		List<Team> teams = Reader.readTeams();
+		Reader.insertKenpomStats(teams, YEAR);
+		Bracket bracket = new Bracket(teams, YEAR);
 		bracket.save();
+		if (PRINT)
+			System.out.println(bracket);
 	}
 }

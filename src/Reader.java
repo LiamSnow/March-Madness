@@ -14,9 +14,9 @@ import java.util.Scanner;
  */
 public class Reader {
 	
-	/** Reads data from https://kenpom.com
+	/** Reads data from https://kenpom.com and inserts it into a team list
 	 * @param year Which year to read data from */
-	public static List<Team> readKenpom(int year) {
+	public static void insertKenpomStats(List<Team> teams, int year) {
 		try {
 			URL url = new URL("https://kenpom.com/index.php?y=" + year);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -29,51 +29,65 @@ public class Reader {
 				reader.append(line);
 			}
 			data = reader.toString();
-			String[] teamStrs = data.split("<tr>");
-			List<Team> teams = new ArrayList<Team>();
+			List<Team> kenpomTeams = new ArrayList<Team>();
+			String[] teamStrs = data.split("<tr");
 			for (String teamStr : teamStrs) {
 				try {
 					if (teamStr.indexOf("<td class=") != -1) {
 						String[] elements = teamStr.split("<td");
-						teams.add(new Team(
-								Util.parseIntSafe(Util.insideTag(elements[1])),
-								Util.inside(Util.insideTag(elements[2]), "\">", "</a>"),
-								Util.parseIntSafe(Util.inside(Util.insideTag(elements[2]), "seed\">", "</span>"), -1),
-								Util.insideTag(Util.insideTag(elements[3])),
-								Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[0]),
-								Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[1]),
-								Util.parseDoubleSafe(Util.insideTag(elements[5])),
-								Util.parseDoubleSafe(Util.insideTag(elements[6])),
-								Util.parseDoubleSafe(Util.insideTag(elements[8])),
-								Util.parseDoubleSafe(Util.insideTag(elements[10])),
-								Util.parseDoubleSafe(Util.insideTag(elements[12])),
-								Util.parseDoubleSafe(Util.insideTag(elements[14])),
-								Util.parseDoubleSafe(Util.insideTag(elements[16])),
-								Util.parseDoubleSafe(Util.insideTag(elements[18])),
-								Util.parseDoubleSafe(Util.insideTag(elements[20]))
-							));
+						kenpomTeams.add(new Team(
+							Util.parseIntSafe(Util.insideTag(elements[1])),
+							Util.inside(Util.insideTag(elements[2]), "\">", "</a>"),
+							Util.parseIntSafe(Util.inside(Util.insideTag(elements[2]), "seed\">", "</span>"), -1),
+							Util.insideTag(Util.insideTag(elements[3])),
+							Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[0]),
+							Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[1]),
+							Util.parseDoubleSafe(Util.insideTag(elements[5])),
+							Util.parseDoubleSafe(Util.insideTag(elements[6])),
+							Util.parseDoubleSafe(Util.insideTag(elements[8])),
+							Util.parseDoubleSafe(Util.insideTag(elements[10])),
+							Util.parseDoubleSafe(Util.insideTag(elements[12])),
+							Util.parseDoubleSafe(Util.insideTag(elements[14])),
+							Util.parseDoubleSafe(Util.insideTag(elements[16])),
+							Util.parseDoubleSafe(Util.insideTag(elements[18])),
+							Util.parseDoubleSafe(Util.insideTag(elements[20]))
+						));
 					}
-				} catch (Exception e) { /*expected to have issues*/ }
+				} catch (Exception e) { }
 			}
+			
+			//Match teams to closest kenpom teams
+			for (int i = 0; i < teams.size(); i++) {
+				int closestIndex = 0;
+				for (int t = 0; t < kenpomTeams.size(); t++) {
+					if (Util.difference(kenpomTeams.get(t).name,            teams.get(i).name) < 
+						Util.difference(kenpomTeams.get(closestIndex).name, teams.get(i).name)) {
+						closestIndex = t;
+					}
+				}
+				if (Util.difference(kenpomTeams.get(closestIndex).name, teams.get(i).name) < 15) {
+					teams.get(i).merge(kenpomTeams.get(closestIndex));
+				}
+			}
+		} catch (Exception e) { e.printStackTrace(); }
+	}
+	
+	/** Reads the team positioning in the bracket from "positioning.txt" */
+	public static List<Team> readTeams() {
+		try {
+			Scanner scan = new Scanner(new File("positioning.txt"));
+			List<Team> teams = new ArrayList<Team>();
+			while (scan.hasNextLine()) {
+				String line = scan.nextLine();
+				if (line.contains("/")) {
+					teams.add(new FirstFourTeam(line.split("/")[0]));
+					teams.add(new FirstFourTeam(line.split("/")[1]));
+				}
+				else teams.add(new Team(line));
+			}
+			scan.close();
 			return teams;
 		} catch (Exception e) { e.printStackTrace(); }
 		return null;
-	}
-	
-	/** Reads the team positioning in the bracket from a text file */
-	public static String readTextFile() {
-		try {
-			Scanner scan = new Scanner(new File("positioning.txt"));
-			String returnString = "";
-			while (scan.hasNextLine())
-				returnString += scan.nextLine();
-			scan.close();
-			return returnString;
-		} catch (Exception e) { e.printStackTrace(); }
-		return "";
-	}
-	
-	public static List<Team> organizeTeamsBy(List<Team> teams, String teamPositioning) {
-		return teams;
 	}
 }

@@ -2,3 +2,63 @@ Virginia
 UMBC
 Creighton
 Kansas St.
+Kentucky
+Davidson
+Arizona
+Buffalo
+Miami
+Loyola Chicago
+Tennessee
+Wright St.
+Nevada
+Texas
+Cincinnati
+Georgia St.
+Xavier
+North Carolina Central/Texas Southern
+Missouri
+Florida St.
+Ohio St.
+South Dakota St.
+Gonzaga
+UNC-Green
+Houston
+San Diego St.
+Michigan
+Montana
+Texas A&M
+Providence
+North Carolina
+Lipscomb
+Villanova
+LIU Brooklyn/Radford
+Va. Tech
+Alabama
+W. Virginia
+Murray St.
+Wichita St.
+Marshall
+Florida
+St. Bonaventure/UCLA
+Texas Tech
+SF Austin
+Arkansas
+Butler
+Purdue
+CSFullerton
+Kansas
+Penn
+Seton Hall
+NC State
+Clemson
+New Mexico St.
+Auburn
+Charleston
+TCU
+Arizona St./Syracuse
+Michigan St.
+Bucknell
+Rhode Island
+Oklahoma
+Duke
+Iona
