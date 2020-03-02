@@ -26,6 +26,8 @@ public class Util {
 	 * specified default value will be used */
 	public static double parseDoubleSafe(String str, double defaultValue) {
 		try {
+			if (str.indexOf("%") != -1)
+				str = str.replaceAll("%", "");
 			return Double.parseDouble(str);
 		}
 		catch (Exception e) { return defaultValue; }

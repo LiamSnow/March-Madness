@@ -72,6 +72,38 @@ public class Reader {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
+	/** Reads data from https://www.teamrankings.com/ and inserts it into a team list
+	 * @param year Which year to read data from */
+	public static void insertTeamRankingsStats(List<Team> teams, int year) {
+		try {
+			URL url = new URL("https://www.teamrankings.com/ncaa-basketball/stat/true-shooting-percentage?date=" + year + "-01-01");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			InputStream is = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+			StringBuffer reader = new StringBuffer();
+			String line, data;
+			while ((line = rd.readLine()) != null)
+				reader.append(line);
+			data = reader.toString();
+			data = data.substring(data.indexOf("<table"));
+			String[] teamStrs = data.split("<tr");
+			for (String teamStr : teamStrs) {
+				try {
+					if (teamStr.indexOf("<td class=\"rank") != -1) {
+						String[] elements = teamStr.split("<td");
+						String name = Util.insideTag(Util.insideTag(elements[2]));
+						double trueShootingPercent = Util.parseDoubleSafe(Util.insideTag(elements[3])) / 100.0;
+						
+						for ()
+						
+						break;
+					}
+				} catch (Exception e) { e.printStackTrace(); }
+			}
+		} catch (Exception e) { e.printStackTrace(); }
+	}
+	
 	/** Reads the team positioning in the bracket from "positioning.txt" */
 	public static List<Team> readTeams() {
 		try {
@@ -80,8 +112,8 @@ public class Reader {
 			while (scan.hasNextLine()) {
 				String line = scan.nextLine();
 				if (line.contains("/")) {
-					teams.add(new FirstFourTeam(line.split("/")[0]));
-					teams.add(new FirstFourTeam(line.split("/")[1]));
+					teams.add(new InitialEightTeam(line.split("/")[0]));
+					teams.add(new InitialEightTeam(line.split("/")[1]));
 				}
 				else teams.add(new Team(line));
 			}

@@ -12,10 +12,11 @@ public class Main {
 	
 	public static void main(String args[]) {
 		List<Team> teams = Reader.readTeams();
-		Reader.insertKenpomStats(teams, YEAR);
-		Bracket bracket = new Bracket(teams, YEAR);
-		bracket.save();
-		if (PRINT)
-			System.out.println(bracket);
+//		Reader.insertKenpomStats(teams, YEAR);
+		Reader.insertTeamRankingsStats(teams, YEAR);
+//		Bracket bracket = new Bracket(teams, YEAR);
+//		bracket.save();
+//		if (PRINT)
+//			System.out.println(bracket);
 	}
 }

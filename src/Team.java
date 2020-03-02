@@ -8,7 +8,8 @@ public class Team {
 	int rank, seed, wins, losses;
 	double adjustedEfficiencyMargin, adjustedOffensiveEfficiency, adjustedDefensiveEfficiency, 
 		   adjustedTempo, luck, strengthOfScheduleRating, averageAdjstedOffensiveEfficiencyOfOpposingOffenses, 
-		   averageAdjustedDefensiveEfficiencyOfOpposingDefenses, nonConferenceStrengthOfScheduleRating;
+		   averageAdjustedDefensiveEfficiencyOfOpposingDefenses, nonConferenceStrengthOfScheduleRating,
+		   trueShootingPercent;
 	
 	public Team(String name) {
 		this.name = name;
@@ -47,6 +48,10 @@ public class Team {
 		this.nonConferenceStrengthOfScheduleRating = nonConferenceStrengthOfScheduleRating;
 	}
 	
+	public void setTeamRankingsStats(double trueShootingPercent) {
+		this.trueShootingPercent = trueShootingPercent;
+	}
+	
 	public Team play(Team otherTeam) {
 		if (getRating() > otherTeam.getRating())
 			return this;
@@ -77,5 +82,6 @@ public class Team {
 		this.averageAdjstedOffensiveEfficiencyOfOpposingOffenses = team.averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
 		this.averageAdjustedDefensiveEfficiencyOfOpposingDefenses = team.averageAdjustedDefensiveEfficiencyOfOpposingDefenses;
 		this.nonConferenceStrengthOfScheduleRating = team.nonConferenceStrengthOfScheduleRating;
+		this.trueShootingPercent = team.trueShootingPercent;
 	}
 }
