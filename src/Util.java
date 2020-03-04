@@ -98,4 +98,58 @@ public class Util {
 	public static int clamp(int num, int min, int max) {
 		return max(min(num, min), max);
 	}
+	
+	//Abbreviations
+	public static boolean isAbbreviationOf(String str, String str2) {
+		String abr = getShorter(str, str2);
+		if (abr.indexOf(".") != -1)
+			abr = abr.replaceAll(".", "");
+		String othr = abr.equals(str) ? str2 : str;
+		if (!isAbbreviation(abr))
+			return false;
+		othr = othr.toUpperCase();
+		abr = abr.toUpperCase();
+		if (othr.length() == 0 || abr.length() == 0)
+			return false;
+		if (othr.charAt(0) != abr.charAt(0))
+			return false;
+		for (int i = 0; i < abr.length(); i++) {
+			if (othr.indexOf(abr.charAt(i)) == -1)
+				return false;
+			othr = othr.substring(othr.indexOf(abr.charAt(i)));
+		}
+		return true;
+	}
+	public static boolean isAbbreviation(String str) {
+		return str.equals(str.toUpperCase()) || str.indexOf(".") != -1;
+	}
+	
+	//Shorter/Longer
+	public static String getShorter(String str1, String str2) {
+		if (str1.length() < str2.length())
+			return str1;
+		return str2;
+	}
+	public static String getLonger(String str1, String str2) {
+		if (str1.length() > str2.length())
+			return str1;
+		return str2;
+	}
+	
+	//Same Name
+	public static boolean isSameName(String string1, String string2) {
+		String[] words1 = string1.split(" ");
+		String[] words2 = string2.split(" ");
+		
+		if (words1.length != words2.length)
+			return false;
+		
+		//match each word
+		for (int i = 0; i < words1.length; i++) {
+			if (!(difference(words1[i], words2[i]) < 1 || isAbbreviationOf(words1[i], words2[i])))
+				return false;
+		}
+		
+		return true;
+	}
 }

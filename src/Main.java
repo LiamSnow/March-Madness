@@ -12,8 +12,9 @@ public class Main {
 	
 	public static void main(String args[]) {
 		List<Team> teams = Reader.readTeams();
-//		Reader.insertKenpomStats(teams, YEAR);
+		Reader.insertKenpomStats(teams, YEAR);
 		Reader.insertTeamRankingsStats(teams, YEAR);
+		Reader.checkIfTeamsHaveData(teams);
 //		Bracket bracket = new Bracket(teams, YEAR);
 //		bracket.save();
 //		if (PRINT)

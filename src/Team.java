@@ -84,4 +84,12 @@ public class Team {
 		this.nonConferenceStrengthOfScheduleRating = team.nonConferenceStrengthOfScheduleRating;
 		this.trueShootingPercent = team.trueShootingPercent;
 	}
+	
+	public boolean hasKenpomData() {
+		return rank != 0 || conference != null;
+	}
+	
+	public boolean hasTeamRankingData() {
+		return trueShootingPercent != 0;
+	}
 }

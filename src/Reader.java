@@ -29,45 +29,37 @@ public class Reader {
 				reader.append(line);
 			}
 			data = reader.toString();
-			List<Team> kenpomTeams = new ArrayList<Team>();
 			String[] teamStrs = data.split("<tr");
 			for (String teamStr : teamStrs) {
 				try {
 					if (teamStr.indexOf("<td class=") != -1) {
 						String[] elements = teamStr.split("<td");
-						kenpomTeams.add(new Team(
-							Util.parseIntSafe(Util.insideTag(elements[1])),
-							Util.inside(Util.insideTag(elements[2]), "\">", "</a>"),
-							Util.parseIntSafe(Util.inside(Util.insideTag(elements[2]), "seed\">", "</span>"), -1),
-							Util.insideTag(Util.insideTag(elements[3])),
-							Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[0]),
-							Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[1]),
-							Util.parseDoubleSafe(Util.insideTag(elements[5])),
-							Util.parseDoubleSafe(Util.insideTag(elements[6])),
-							Util.parseDoubleSafe(Util.insideTag(elements[8])),
-							Util.parseDoubleSafe(Util.insideTag(elements[10])),
-							Util.parseDoubleSafe(Util.insideTag(elements[12])),
-							Util.parseDoubleSafe(Util.insideTag(elements[14])),
-							Util.parseDoubleSafe(Util.insideTag(elements[16])),
-							Util.parseDoubleSafe(Util.insideTag(elements[18])),
-							Util.parseDoubleSafe(Util.insideTag(elements[20]))
-						));
+						String name = Util.inside(Util.insideTag(elements[2]), "\">", "</a>");
+						
+						//match
+						for (int i = 0; i < teams.size(); i++) {
+							if (Util.isSameName(name, teams.get(i).name)) {
+								teams.get(i).setKenpomStats(
+									Util.parseIntSafe(Util.insideTag(elements[1])),
+									Util.parseIntSafe(Util.inside(Util.insideTag(elements[2]), "seed\">", "</span>"), -1),
+									Util.insideTag(Util.insideTag(elements[3])),
+									Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[0]),
+									Util.parseIntSafe(Util.insideTag(elements[4]).split("-")[1]),
+									Util.parseDoubleSafe(Util.insideTag(elements[5])),
+									Util.parseDoubleSafe(Util.insideTag(elements[6])),
+									Util.parseDoubleSafe(Util.insideTag(elements[8])),
+									Util.parseDoubleSafe(Util.insideTag(elements[10])),
+									Util.parseDoubleSafe(Util.insideTag(elements[12])),
+									Util.parseDoubleSafe(Util.insideTag(elements[14])),
+									Util.parseDoubleSafe(Util.insideTag(elements[16])),
+									Util.parseDoubleSafe(Util.insideTag(elements[18])),
+									Util.parseDoubleSafe(Util.insideTag(elements[20]))
+								);
+								break;
+							}
+						}
 					}
 				} catch (Exception e) { }
-			}
-			
-			//Match teams to closest kenpom teams
-			for (int i = 0; i < teams.size(); i++) {
-				int closestIndex = 0;
-				for (int t = 0; t < kenpomTeams.size(); t++) {
-					if (Util.difference(kenpomTeams.get(t).name,            teams.get(i).name) < 
-						Util.difference(kenpomTeams.get(closestIndex).name, teams.get(i).name)) {
-						closestIndex = t;
-					}
-				}
-				if (Util.difference(kenpomTeams.get(closestIndex).name, teams.get(i).name) < 15) {
-					teams.get(i).merge(kenpomTeams.get(closestIndex));
-				}
 			}
 		} catch (Exception e) { e.printStackTrace(); }
 	}
@@ -93,11 +85,14 @@ public class Reader {
 					if (teamStr.indexOf("<td class=\"rank") != -1) {
 						String[] elements = teamStr.split("<td");
 						String name = Util.insideTag(Util.insideTag(elements[2]));
-						double trueShootingPercent = Util.parseDoubleSafe(Util.insideTag(elements[3])) / 100.0;
 						
-						for ()
-						
-						break;
+						//match
+						for (int i = 0; i < teams.size(); i++) {
+							if (Util.isSameName(name, teams.get(i).name)) {
+								teams.get(i).setTeamRankingsStats(Util.parseDoubleSafe(Util.insideTag(elements[3])) / 100.0);
+								break;
+							}
+						}
 					}
 				} catch (Exception e) { e.printStackTrace(); }
 			}
@@ -112,14 +107,23 @@ public class Reader {
 			while (scan.hasNextLine()) {
 				String line = scan.nextLine();
 				if (line.contains("/")) {
-					teams.add(new InitialEightTeam(line.split("/")[0]));
-					teams.add(new InitialEightTeam(line.split("/")[1]));
+					teams.add(new InitialEightTeam(line.split("/")[0].replace("amp;", "")));
+					teams.add(new InitialEightTeam(line.split("/")[1].replace("amp;", "")));
 				}
-				else teams.add(new Team(line));
+				else teams.add(new Team(line.replace("amp;", "")));
 			}
 			scan.close();
 			return teams;
 		} catch (Exception e) { e.printStackTrace(); }
 		return null;
+	}
+
+	public static void checkIfTeamsHaveData(List<Team> teams) {
+		for (Team team : teams) {
+			if (!team.hasKenpomData())
+				System.out.println(team.name + " missing kenpom data!");
+			if (!team.hasTeamRankingData())
+				System.out.println(team.name + " missing team ranking data!");
+		}
 	}
 }
