@@ -6,7 +6,7 @@ Kentucky
 Davidson
 Arizona
 Buffalo
-Miami
+Miami Fl.
 Loyola Chicago
 Tennessee
 Wright St.
@@ -21,7 +21,7 @@ Florida St.
 Ohio St.
 South Dakota St.
 Gonzaga
-UNC-Green
+UNC Greensboro
 Houston
 San Diego St.
 Michigan
@@ -41,11 +41,11 @@ Marshall
 Florida
 St. Bonaventure/UCLA
 Texas Tech
-SF Austin
+St. F. Austin
 Arkansas
 Butler
 Purdue
-CSFullerton
+Cal St. Fullerton
 Kansas
 Penn
 Seton Hall
@@ -53,7 +53,7 @@ NC State
 Clemson
 New Mexico St.
 Auburn
-Charleston
+College of Charleston
 TCU
 Arizona St./Syracuse
 Michigan St.

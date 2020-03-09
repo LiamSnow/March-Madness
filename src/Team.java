@@ -92,4 +92,17 @@ public class Team {
 	public boolean hasTeamRankingData() {
 		return trueShootingPercent != 0;
 	}
+
+	public String fullString() {
+		return toString() + " AEM:" + this.adjustedEfficiencyMargin +
+							" AOE:" + this.adjustedOffensiveEfficiency + 
+							" ADE:" + this.adjustedDefensiveEfficiency +
+							" AT:" + this.adjustedTempo + 
+							" LUCK:" + this.luck + 
+							" SSR:" + this.strengthOfScheduleRating + 
+							" AAOEOO:" + this.averageAdjstedOffensiveEfficiencyOfOpposingOffenses + 
+							" AADEOO:" + this.averageAdjustedDefensiveEfficiencyOfOpposingDefenses + 
+							" NCSSR:" + this.nonConferenceStrengthOfScheduleRating + 
+							" TSP:" + this.trueShootingPercent;
+	}
 }

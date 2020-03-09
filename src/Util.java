@@ -102,8 +102,6 @@ public class Util {
 	//Abbreviations
 	public static boolean isAbbreviationOf(String str, String str2) {
 		String abr = getShorter(str, str2);
-		if (abr.indexOf(".") != -1)
-			abr = abr.replaceAll(".", "");
 		String othr = abr.equals(str) ? str2 : str;
 		if (!isAbbreviation(abr))
 			return false;
@@ -114,6 +112,8 @@ public class Util {
 		if (othr.charAt(0) != abr.charAt(0))
 			return false;
 		for (int i = 0; i < abr.length(); i++) {
+			if (abr.charAt(i) == '.')
+				continue;
 			if (othr.indexOf(abr.charAt(i)) == -1)
 				return false;
 			othr = othr.substring(othr.indexOf(abr.charAt(i)));
@@ -138,15 +138,15 @@ public class Util {
 	
 	//Same Name
 	public static boolean isSameName(String string1, String string2) {
-		String[] words1 = string1.split(" ");
-		String[] words2 = string2.split(" ");
+		String[] words1 = string1.replaceAll("[()]", "").split(" ");
+		String[] words2 = string2.replaceAll("[()]", "").split(" ");
 		
 		if (words1.length != words2.length)
 			return false;
 		
 		//match each word
 		for (int i = 0; i < words1.length; i++) {
-			if (!(difference(words1[i], words2[i]) < 1 || isAbbreviationOf(words1[i], words2[i])))
+			if (!(difference(words1[i], words2[i]) < 2 || isAbbreviationOf(words1[i], words2[i])))
 				return false;
 		}
 		

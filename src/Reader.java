@@ -16,7 +16,7 @@ public class Reader {
 	
 	/** Reads data from https://kenpom.com and inserts it into a team list
 	 * @param year Which year to read data from */
-	public static void insertKenpomStats(List<Team> teams, int year) {
+	public static void fetchKenpomStats(List<Team> teams, int year) {
 		try {
 			URL url = new URL("https://kenpom.com/index.php?y=" + year);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -66,7 +66,7 @@ public class Reader {
 	
 	/** Reads data from https://www.teamrankings.com/ and inserts it into a team list
 	 * @param year Which year to read data from */
-	public static void insertTeamRankingsStats(List<Team> teams, int year) {
+	public static void fetchTeamRankingsStats(List<Team> teams, int year) {
 		try {
 			URL url = new URL("https://www.teamrankings.com/ncaa-basketball/stat/true-shooting-percentage?date=" + year + "-01-01");
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -117,7 +117,7 @@ public class Reader {
 		} catch (Exception e) { e.printStackTrace(); }
 		return null;
 	}
-
+	
 	public static void checkIfTeamsHaveData(List<Team> teams) {
 		for (Team team : teams) {
 			if (!team.hasKenpomData())
