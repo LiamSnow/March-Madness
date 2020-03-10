@@ -89,6 +89,8 @@ public class Reader {
 						//match
 						for (int i = 0; i < teams.size(); i++) {
 							if (Util.isSameName(name, teams.get(i).name)) {
+								if (name.contains("Carolina") && name.contains("N"))
+									System.out.println(teams.get(i).name);
 								teams.get(i).setTeamRankingsStats(Util.parseDoubleSafe(Util.insideTag(elements[3])) / 100.0);
 								break;
 							}
