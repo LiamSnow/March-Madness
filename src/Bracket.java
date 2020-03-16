@@ -84,4 +84,8 @@ public class Bracket {
 			writer.close();
 		} catch (Exception e) { e.printStackTrace(); }
 	}
+
+	public void printBracket() {
+		System.out.println(toString());
+	}
 }

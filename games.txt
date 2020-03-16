@@ -1,0 +1,59 @@
+Virginia/UMBC -> 1
+Creighton/Kansas St. -> 1
+Kentucky/Davidson -> 1
+Arizona/Buffalo -> 1
+Miami Fl./Loyola Chi. -> 2
+Tennessee/Wright St. -> 1
+Nevada/Texas -> 1
+Cincinnati/Georgia St. -> 1
+Missouri/Florida St. -> 2
+Ohio St./South Dakota St. -> 2
+Gonzaga/UNC Gr. -> 1
+Houston/San Diego St. -> 1
+Michigan/Montana -> 1
+Texas A&M/Providence -> 2
+North Caroline/Lipscomp -> 1
+Virginia/Creighton -> 1
+Kentucky/Arizona -> 2
+Loyola Chicago/Tennessee -> 2
+Nevada/Cincinnati -> 2
+Xavier/Florida St. -> 1
+South Dakota St./Gonzaga -> 2
+Houston/Michigan -> 2
+Providence/North Carolina -> 2
+Virginia/Arizona -> 1
+Tennessee/Cincinnati -> 1
+Xavier/Gonzaga -> 2
+Michigan/North Carolina -> 1
+Virginia/Tennessee -> 1
+Gonzaga/Michigan -> 1
+Virginia/Gonzaga -> 1
+Virginia/Villanova -> 2
+Villanova/Michigan St. -> 1
+Vir. Tech/Alabama -> 2
+W. Vir./Murr. St. -> 2
+Wich. St./Marshall -> 1
+Texas Tech/Stephen F. Austin -> 1
+Arkansas/Butler -> 1
+Purdue/Cal St. Fullerton -> 1
+Kansas/Penn -> 1
+Set. Hall/N. Caro. -> 1
+Clemson/New Mex. St. -> 2
+Auburn/College of Charleston -> 2
+Michigan St./Bucknell -> 1
+Rhode Island/Oklahoma -> 1
+Duke/Iona -> 1
+Villanova/Alabama -> 1
+Murray St./Wich. St. -> 2
+UCLA/Texas Tech -> 2
+Arkansas/Purdue -> 1
+Kansas/Seton Hall -> 1
+New Mex. St./College of Charleston -> 1
+Syr./Mich. St. -> 2
+Rhode Island/Duke -> 2
+Villanova/Wich. St. -> 1
+Texas Tech/Arkansas -> 1
+Kansas/New Mex. St. -> 1
+Mich. St./Duke -> 1
+Villanova/Texas Tech -> 1
+Kansas/Mich. St. -> 2

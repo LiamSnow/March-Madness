@@ -8,8 +8,7 @@ public class Team {
 	int rank, seed, wins, losses;
 	double adjustedEfficiencyMargin, adjustedOffensiveEfficiency, adjustedDefensiveEfficiency, 
 		   adjustedTempo, luck, strengthOfScheduleRating, averageAdjstedOffensiveEfficiencyOfOpposingOffenses, 
-		   averageAdjustedDefensiveEfficiencyOfOpposingDefenses, nonConferenceStrengthOfScheduleRating,
-		   trueShootingPercent;
+		   averageAdjustedDefensiveEfficiencyOfOpposingDefenses, nonConferenceStrengthOfScheduleRating;
 	
 	public Team(String name) {
 		this.name = name;
@@ -48,24 +47,29 @@ public class Team {
 		this.nonConferenceStrengthOfScheduleRating = nonConferenceStrengthOfScheduleRating;
 	}
 	
-	public void setTeamRankingsStats(double trueShootingPercent) {
-		this.trueShootingPercent = trueShootingPercent;
-	}
-	
 	public Team play(Team otherTeam) {
 		if (getRating() > otherTeam.getRating())
 			return this;
 		else return otherTeam;
 	}
 	
+	public static TeamRatingWeights weights = new TeamRatingWeights(0.0, 0.125, 0.15, 0.0, 0.0, 0.0, 0.0, 0.175, 0.675, 0.0);
+	
 	public double getRating() {
-		return (0.7 * adjustedOffensiveEfficiency) + (0.3 * adjustedDefensiveEfficiency);
+		double rating = 0;
+		rating += weights.WL * ((double) wins / losses);
+		rating += weights.AEM * adjustedEfficiencyMargin;
+		rating += weights.AOE * adjustedOffensiveEfficiency;
+		rating += weights.ADE * adjustedDefensiveEfficiency;
+		rating += weights.AT * adjustedTempo;
+		rating += weights.LUCK * luck;
+		rating += weights.SOSR * strengthOfScheduleRating;
+		rating += weights.AAOEOO * averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
+		rating += weights.AADEOO * averageAdjustedDefensiveEfficiencyOfOpposingDefenses;
+		rating += weights.NCSOSR * nonConferenceStrengthOfScheduleRating;
+		return rating;
 	}
 	
-	public String toString() {
-		return rank + " " + name + " " + (seed == -1 ? "" : seed + " ") + conference + " " + wins + "-" + losses;
-	}
-
 	public void merge(Team team) {
 		this.rank = team.rank;
 		this.name = team.name;
@@ -82,27 +86,31 @@ public class Team {
 		this.averageAdjstedOffensiveEfficiencyOfOpposingOffenses = team.averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
 		this.averageAdjustedDefensiveEfficiencyOfOpposingDefenses = team.averageAdjustedDefensiveEfficiencyOfOpposingDefenses;
 		this.nonConferenceStrengthOfScheduleRating = team.nonConferenceStrengthOfScheduleRating;
-		this.trueShootingPercent = team.trueShootingPercent;
 	}
 	
 	public boolean hasKenpomData() {
 		return rank != 0 || conference != null;
 	}
-	
-	public boolean hasTeamRankingData() {
-		return trueShootingPercent != 0;
-	}
 
-	public String fullString() {
-		return toString() + " AEM:" + this.adjustedEfficiencyMargin +
-							" AOE:" + this.adjustedOffensiveEfficiency + 
-							" ADE:" + this.adjustedDefensiveEfficiency +
-							" AT:" + this.adjustedTempo + 
-							" LUCK:" + this.luck + 
-							" SSR:" + this.strengthOfScheduleRating + 
-							" AAOEOO:" + this.averageAdjstedOffensiveEfficiencyOfOpposingOffenses + 
-							" AADEOO:" + this.averageAdjustedDefensiveEfficiencyOfOpposingDefenses + 
-							" NCSSR:" + this.nonConferenceStrengthOfScheduleRating + 
-							" TSP:" + this.trueShootingPercent;
+	public String toString() {
+		return rank + " " + name + " " + (seed == -1 ? "" : seed + " ") + conference + " " + wins + "-" + losses;
+	}
+	
+	public String getSaveString() {
+		return  "NAME:" + name +
+			   (seed == -1 ? ("") : (" SEED:" + seed)) +
+			   " RANK:" + rank +
+			   " CONF:" + conference +
+			   " WINS:" + wins +
+			   " LOSSES:" + losses +
+			   " AEM:" + adjustedEfficiencyMargin +
+			   " AOE:" + adjustedOffensiveEfficiency +
+			   " ADE:" + adjustedDefensiveEfficiency +
+			   " AT:" + adjustedTempo +
+			   " LUCK:" + luck +
+			   " SSR:" + strengthOfScheduleRating +
+			   " AAOEOO:" + averageAdjstedOffensiveEfficiencyOfOpposingOffenses +
+			   " AADEOO:" + averageAdjustedDefensiveEfficiencyOfOpposingDefenses +
+			   " NCSSR:" + nonConferenceStrengthOfScheduleRating;
 	}
 }

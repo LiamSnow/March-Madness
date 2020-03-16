@@ -139,25 +139,7 @@ public class Util {
 	}
 	
 	//Same Name
-	private static final String[] SAME_NAMES = new String[] {
-		"Col Charlestn", "College of Charleston",
-		"Loyola Chicago", "Loyola-Chi",
-		"North Carolina Central", "N Carolina",
-		"North Carolina", "North Carolina Central",
-		"N Carolina", "North Carolina",
-		"UNC Greensboro", "NC-Grnsboro",
-		"LIU Brooklyn", "LIU-Brooklyn",
-		"St. Bonaventure", "St Bonavent",
-		"Cal St. Fullerton", "CS Fullerton",
-		"Penn", "U Penn",
-		"New Mexico St.", "New Mexico"
-	};
 	public static boolean isSameName(String string1, String string2) {
-		for (int i = 0; i < SAME_NAMES.length; i += 2)
-			if ((string1.indexOf(SAME_NAMES[i]) != -1 && string2.indexOf(SAME_NAMES[i + 1]) != -1) ||
-				(string2.indexOf(SAME_NAMES[i]) != -1 && string1.indexOf(SAME_NAMES[i + 1]) != -1))
-				return true;
-		
 		String[] words1 = string1.replaceAll("[()]", "").split(" ");
 		String[] words2 = string2.replaceAll("[()]", "").split(" ");
 		
@@ -171,5 +153,28 @@ public class Util {
 		}
 		
 		return true;
+	}
+	
+	//Find Element
+	public static String findElement(String str, String par) {
+		if (str.indexOf(par) != -1) {
+			int start = str.indexOf(par + ":") + par.length() + 1;
+			int end = str.indexOf(":", start);
+			
+			if (end == -1) {
+				return str.substring(start);
+			}
+			else {
+				str = str.substring(start, end);
+				return str.substring(0, str.lastIndexOf(" "));
+			}
+		}
+		return null;
+	}
+	public static int findElementInt(String str, String par) {
+		return parseIntSafe(findElement(str, par), -1);
+	}
+	public static double findElementDouble(String str, String par) {
+		return parseDoubleSafe(findElement(str, par), -1);
 	}
 }
