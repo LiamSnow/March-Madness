@@ -13,23 +13,28 @@ public class Main {
 	public static final boolean USE_WEB = true;
 	
 	public static void main(String args[]) {
-		//Get Teams and Kenpom Data
-		List<Team> teams = Reader.readTeams(), kenpomTeams;
+		//Get Kenpom Data
+		List<Team> kenpomTeams;
 		if (USE_WEB) {
 			kenpomTeams = Reader.fetchKenpomStats(YEAR);
 			Reader.saveKenpomTeams(kenpomTeams, YEAR);
 		}
 		else kenpomTeams = Reader.getDataFromFile(YEAR);
 		
-		Reader.mergeKenpomStats(kenpomTeams, teams);
-		Reader.checkIfTeamsHaveData(teams);
-
+		//Run Regression
 		if (REGRESS) {
 			//Finds the best weights for comparing teams
 			Regressor regressor = new Regressor(kenpomTeams);
-			regressor.run(0.025);
+			regressor.run(0.05);
 		}
+		
+		//Simulate Bracket
 		else {
+			//Reads in positioning in the bracket from text file
+			List<Team> teams = Reader.readTeams();
+			Reader.mergeKenpomStats(kenpomTeams, teams);
+			Reader.checkIfTeamsHaveData(teams);
+
 			//Runs a full bracket simulation
 			Bracket bracket = new Bracket(teams, YEAR);
 			bracket.save();

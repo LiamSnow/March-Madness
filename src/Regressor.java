@@ -6,18 +6,16 @@ import java.util.Scanner;
 
 public class Regressor {
 
-	private List<Team> teams;
 	private List<Game> games;
 	
 	public Regressor(List<Team> teams) {
 		try {
-			this.teams = teams;
 			this.games = new ArrayList<Game>();
 			Scanner scan = new Scanner(new File("games.txt"));
 			while (scan.hasNextLine()) {
 				String line = scan.nextLine();
 				String team1Name = line.substring(0, line.indexOf("/")), team2Name = line.substring(line.indexOf("/") + 1, line.indexOf(" -> "));
-				Team team1 = getTeam(team1Name), team2 = getTeam(team2Name);
+				Team team1 = getTeam(team1Name, teams), team2 = getTeam(team2Name, teams);
 				int result = Util.parseIntSafe(line.substring(line.indexOf(" -> ") + 4));
 				if (team1 == null) {
 					System.out.println("Couldn't find team " + team1Name);
@@ -46,25 +44,25 @@ public class Regressor {
 	public void run(double step) {
 		TeamRatingWeights bestWeights = Team.weights;
 		double bestWeightsAccuracy = 0;
-		System.out.println("Running Regression...");
-		for (double aem = 0; aem <= 1; aem += step) {
-			for (double aoe = 0; aoe <= 1; aoe += step) {
-				for (double ade = 0; ade <= 1; ade += step) {
-					for (double aaoeoo = 0; aaoeoo <= 1; aaoeoo += step) {
-						for (double aadeoo = 0; aadeoo <= 1; aadeoo += step) {
-							//for (double wl = 0; wl <= 1; wl += step) {
+		//System.out.println("Running Regression...");
+		for (double aoe = 0; aoe <= 1; aoe += step) {
+			for (double aaoeoo = 0; aaoeoo <= 1; aaoeoo += step) {
+				for (double aadeoo = 0; aadeoo <= 1; aadeoo += step) {
+					for (double wl = 0; wl <= 1; wl += step) {
+						for (double sosr = 0; sosr <= 1; sosr += step) {
+							//for (double ade = 0; ade <= 1; ade += step) {
+							//for (double aem = 0; aem <= 1; aem += step) {
 							//for (double at = 0; at <= 1; at += step) {
 							//for (double luck = 0; luck <= 1; luck += step) {
-							//for (double sosr = 0; sosr <= 1; sosr += step) {
 							//for (double ncsosr = 0; ncsosr <= 1; ncsosr += step) {
-							//Team.weights.WL = wl;
 							//Team.weights.AT = at;
 							//Team.weights.LUCK = luck;
-							//Team.weights.SOSR = sosr;
+							//Team.weights.ADE = ade;
 							//Team.weights.NCSOSR = ncsosr;
-							Team.weights.AEM = aem;
+							//Team.weights.AEM = aem;
+							Team.weights.WL = wl;
+							Team.weights.SOSR = sosr;
 							Team.weights.AOE = aoe;
-							Team.weights.ADE = ade;
 							Team.weights.AAOEOO = aaoeoo;
 							Team.weights.AADEOO = aadeoo;
 							double curAcc = getCurrentAccuracy();
@@ -92,7 +90,7 @@ public class Regressor {
 		return (double) correct / total;
 	}
 	
-	private Team getTeam(String name) {
+	private Team getTeam(String name, List<Team> teams) {
 		for (Team team : teams) {
 			if (Util.isSameName(name, team.name))
 				return team;

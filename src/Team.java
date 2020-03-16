@@ -7,7 +7,7 @@ public class Team {
 	String name, conference;
 	int rank, seed, wins, losses;
 	double adjustedEfficiencyMargin, adjustedOffensiveEfficiency, adjustedDefensiveEfficiency, 
-		   adjustedTempo, luck, strengthOfScheduleRating, averageAdjstedOffensiveEfficiencyOfOpposingOffenses, 
+		   adjustedTempo, luck, strengthOfScheduleRating, averageAdjustedOffensiveEfficiencyOfOpposingOffenses, 
 		   averageAdjustedDefensiveEfficiencyOfOpposingDefenses, nonConferenceStrengthOfScheduleRating;
 	
 	public Team(String name) {
@@ -42,7 +42,7 @@ public class Team {
 		this.adjustedTempo = adjustedTempo;
 		this.luck = luck;
 		this.strengthOfScheduleRating = strengthOfScheduleRating;
-		this.averageAdjstedOffensiveEfficiencyOfOpposingOffenses = averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
+		this.averageAdjustedOffensiveEfficiencyOfOpposingOffenses = averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
 		this.averageAdjustedDefensiveEfficiencyOfOpposingDefenses = averageAdjustedDefensiveEfficiencyOfOpposingDefenses;
 		this.nonConferenceStrengthOfScheduleRating = nonConferenceStrengthOfScheduleRating;
 	}
@@ -53,7 +53,7 @@ public class Team {
 		else return otherTeam;
 	}
 	
-	public static TeamRatingWeights weights = new TeamRatingWeights(0.0, 0.125, 0.15, 0.0, 0.0, 0.0, 0.0, 0.175, 0.675, 0.0);
+	public static TeamRatingWeights weights = new TeamRatingWeights(0.35, 0.125, 0.05, 0.0, 0.0, 0.0, 0.15, 0.0, 0.5, 0.0);
 	
 	public double getRating() {
 		double rating = 0;
@@ -64,7 +64,7 @@ public class Team {
 		rating += weights.AT * adjustedTempo;
 		rating += weights.LUCK * luck;
 		rating += weights.SOSR * strengthOfScheduleRating;
-		rating += weights.AAOEOO * averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
+		rating += weights.AAOEOO * averageAdjustedOffensiveEfficiencyOfOpposingOffenses;
 		rating += weights.AADEOO * averageAdjustedDefensiveEfficiencyOfOpposingDefenses;
 		rating += weights.NCSOSR * nonConferenceStrengthOfScheduleRating;
 		return rating;
@@ -83,7 +83,7 @@ public class Team {
 		this.adjustedTempo = team.adjustedTempo;
 		this.luck = team.luck;
 		this.strengthOfScheduleRating = team.strengthOfScheduleRating;
-		this.averageAdjstedOffensiveEfficiencyOfOpposingOffenses = team.averageAdjstedOffensiveEfficiencyOfOpposingOffenses;
+		this.averageAdjustedOffensiveEfficiencyOfOpposingOffenses = team.averageAdjustedOffensiveEfficiencyOfOpposingOffenses;
 		this.averageAdjustedDefensiveEfficiencyOfOpposingDefenses = team.averageAdjustedDefensiveEfficiencyOfOpposingDefenses;
 		this.nonConferenceStrengthOfScheduleRating = team.nonConferenceStrengthOfScheduleRating;
 	}
@@ -109,7 +109,7 @@ public class Team {
 			   " AT:" + adjustedTempo +
 			   " LUCK:" + luck +
 			   " SSR:" + strengthOfScheduleRating +
-			   " AAOEOO:" + averageAdjstedOffensiveEfficiencyOfOpposingOffenses +
+			   " AAOEOO:" + averageAdjustedOffensiveEfficiencyOfOpposingOffenses +
 			   " AADEOO:" + averageAdjustedDefensiveEfficiencyOfOpposingDefenses +
 			   " NCSSR:" + nonConferenceStrengthOfScheduleRating;
 	}
